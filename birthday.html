@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<title>Birthday Magazine</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;600;800&display=swap');
+
+:root{
+  --paper:#f7f4ee;
+  --ink:#2b2620;
+  --accent:#c4a0f8;
+  --accent2:#e8a092;
+  --muted:#8a827a;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;height:100%;overflow-x:hidden;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  line-height:1.6;
+}
+
+/* ════════════════════════════
+   PAPER TEXTURE
+════════════════════════════ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.008) 2px,rgba(0,0,0,.008) 4px),
+    repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,.008) 2px,rgba(0,0,0,.008) 4px);
+  pointer-events:none;
+}
+
+/* ════════════════════════════
+   MAGAZINE WRAPPER
+════════════════════════════ */
+#mag{
+  max-width:580px;margin:0 auto;
+  background:var(--paper);
+  box-shadow:0 0 60px rgba(0,0,0,0.15);
+  position:relative;
+}
+
+/* ════════════════════════════
+   PAGE
+════════════════════════════ */
+.page{
+  min-height:100vh;
+  padding:60px 32px;
+  position:relative;
+  border-bottom:1px solid rgba(43,38,32,0.08);
+}
+.page-num{
+  position:absolute;bottom:28px;right:32px;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.12em;
+  color:var(--muted);
+}
+
+/* ════════════════════════════
+   COVER PAGE
+════════════════════════════ */
+.cover{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  padding:70px 32px 50px;
+  background:linear-gradient(135deg,#f7f4ee 0%,#fdf9f3 100%);
+  border-bottom:4px solid var(--ink);
+}
+.cover-top{
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.c-logo{
+  font-family:'Montserrat',sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:.22em;
+  color:var(--ink);
+}
+.c-issue{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.15em;
+  text-align:right;color:var(--muted);
+  line-height:1.4;
+}
+.cover-hero{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;text-align:center;
+  padding:40px 0;
+}
+.c-big{
+  font-size:clamp(52px,14vw,90px);
+  font-weight:600;line-height:.92;
+  letter-spacing:-.03em;
+  margin-bottom:12px;
+}
+.c-sub{
+  font-size:clamp(16px,4vw,22px);
+  font-style:italic;font-weight:400;
+  color:var(--muted);line-height:1.4;
+  max-width:420px;margin:0 auto;
+}
+.cover-bottom{text-align:center;}
+.c-meta{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:8px;
+}
+.c-bar{
+  width:60px;height:2px;background:var(--accent);
+  margin:16px auto;
+}
+
+/* ════════════════════════════
+   TYPOGRAPHY
+════════════════════════════ */
+.kicker{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;display:block;
+}
+.hed{
+  font-size:clamp(32px,8vw,54px);
+  font-weight:600;line-height:1.05;
+  letter-spacing:-.02em;margin-bottom:16px;
+}
+.dek{
+  font-size:18px;font-style:italic;
+  color:var(--muted);line-height:1.5;
+  margin-bottom:24px;
+}
+.drop-cap::first-letter{
+  float:left;font-size:3.8em;line-height:.85;
+  font-weight:600;margin:.05em .08em 0 0;
+  color:var(--accent);
+}
+.body-text{
+  font-size:16px;line-height:1.75;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+.byline{
+  font-size:14px;font-style:italic;
+  color:var(--muted);margin-top:24px;
+  text-align:right;
+}
+
+/* Pull Quote */
+.pq{
+  margin:32px 0;padding:24px 0;
+  border-top:1px solid rgba(43,38,32,0.15);
+  border-bottom:1px solid rgba(43,38,32,0.15);
+  text-align:center;
+}
+.pq-text{
+  font-size:clamp(22px,5.5vw,32px);
+  line-height:1.3;font-style:italic;
+  color:var(--ink);
+}
+.pq-attr{
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+  margin-top:12px;
+}
+
+/* ════════════════════════════
+   LAYOUT GRID
+════════════════════════════ */
+.two-col{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:20px;margin:24px 0;
+}
+@media(max-width:500px){
+  .two-col{grid-template-columns:1fr;}
+}
+
+/* Photo placeholder */
+.photo{
+  width:100%;aspect-ratio:4/5;
+  background:linear-gradient(135deg,#e5dfd5,#f0ebe3);
+  border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin-bottom:10px;
+  position:relative;overflow:hidden;
+}
+.photo::after{
+  content:'';position:absolute;inset:0;
+  border:1px solid rgba(43,38,32,0.08);
+}
+.caption{
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;line-height:1.5;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* ════════════════════════════
+   LIST STYLES
+════════════════════════════ */
+.list-hed{
+  font-size:clamp(26px,6.5vw,40px);
+  font-weight:600;line-height:1.1;
+  margin-bottom:20px;
+}
+.num-list{
+  list-style:none;counter-reset:nl;
+}
+.num-list li{
+  counter-increment:nl;
+  display:flex;align-items:baseline;gap:14px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(43,38,32,0.06);
+}
+.num-list li::before{
+  content:counter(nl,decimal-leading-zero);
+  font-family:'Montserrat',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.08em;
+  color:var(--accent);flex-shrink:0;
+  min-width:28px;
+}
+.num-list li span{font-size:15px;line-height:1.6;}
+
+/* ════════════════════════════
+   INTERACTIVE VAULT
+════════════════════════════ */
+.vault-box{
+  background:#fdfbf9;
+  border:2px solid var(--accent);
+  border-radius:4px;
+  padding:32px 24px;
+  text-align:center;
+  margin:28px 0;
+}
+.v-lock{font-size:52px;margin-bottom:14px;}
+.v-title{
+  font-size:clamp(22px,5.5vw,32px);
+  font-weight:600;margin-bottom:8px;
+}
+.v-hint{
+  font-size:14px;font-style:italic;
+  color:var(--muted);margin-bottom:24px;
+  background:rgba(196,160,248,0.08);
+  padding:10px 16px;border-radius:4px;
+  display:inline-block;
+}
+.pin-dots{display:flex;gap:12px;justify-content:center;margin-bottom:28px;}
+.pd{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--accent);
+  background:transparent;transition:all .2s;
+}
+.pd.on{background:var(--accent);}
+.pd.err{background:var(--accent2);border-color:var(--accent2);animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+
+.keypad{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;max-width:220px;margin:0 auto;
+}
+.key{
+  aspect-ratio:1;
+  background:#fff;
+  border:1px solid rgba(43,38,32,0.1);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;
+  font-size:20px;font-weight:600;
+  cursor:pointer;transition:all .1s;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
+}
+.key:active{transform:scale(.92);background:var(--accent);color:#fff;}
+.key.empty{background:transparent;border:none;box-shadow:none;pointer-events:none;}
+.key.del{font-size:16px;color:var(--muted);}
+
+.vault-reveal{
+  display:none;
+  animation:fadeUp .6s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ════════════════════════════
+   TIMELINE
+════════════════════════════ */
+.tl-item{
+  display:flex;gap:16px;
+  padding:18px 0;
+  border-bottom:1px solid rgba(43,38,32,0.06);
+  cursor:pointer;
+}
+.tl-left{
+  display:flex;flex-direction:column;
+  align-items:center;flex-shrink:0;
+  padding-top:2px;
+}
+.tl-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 3px rgba(196,160,248,0.15);
+  transition:all .3s;
+}
+.tl-item:hover .tl-dot,.tl-item.open .tl-dot{transform:scale(1.4);}
+.tl-line{width:1.5px;flex:1;background:rgba(43,38,32,0.08);margin-top:6px;}
+.tl-date{
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:4px;
+}
+.tl-title{font-size:16px;font-weight:600;}
+.tl-body{
+  font-size:14.5px;line-height:1.6;
+  color:var(--muted);
+  max-height:0;overflow:hidden;
+  transition:max-height .5s ease,opacity .3s;
+  opacity:0;
+}
+.tl-item.open .tl-body{max-height:100px;opacity:1;margin-top:6px;}
+
+/* ════════════════════════════
+   FINAL PAGE
+════════════════════════════ */
+.final-box{
+  border:3px solid var(--ink);
+  padding:40px 24px;
+  text-align:center;
+  margin:40px 0;
+}
+.final-big{
+  font-size:clamp(36px,9vw,64px);
+  font-weight:600;line-height:1.05;
+  margin-bottom:16px;
+}
+.final-sign{
+  font-size:18px;font-style:italic;
+  color:var(--muted);margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<div id="mag">
+
+<!-- ══════════════════════════════════════
+     PAGE 1: COVER
+══════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="c-logo">BIRTHDAY</div>
+    <div class="c-issue">
+      MARCH 9 2026<br>
+      ISSUE XX<br>
+      VOL. 20
+    </div>
+  </div>
+  <div class="cover-hero">
+    <div class="c-big">Happy<br>20th<br>Birthday</div>
+    <div class="c-sub">
+      To the most extraordinary girl I know.<br>
+      Today you turn twenty — and the world has no idea what just arrived.
+    </div>
+  </div>
+  <div class="cover-bottom">
+    <div class="c-bar"></div>
+    <div class="c-meta">Made entirely for you · By your boy</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 2: LETTER OPENER
+══════════════════════════════════════ -->
+<div class="page">
+  <span class="kicker">Chapter One</span>
+  <h1 class="hed">The Letter</h1>
+  <p class="dek">Everything I could not say in one text message.</p>
+  
+  <p class="body-text drop-cap">My love, happy birthday. Today you turn 20. Two decades of the world getting to experience you — your laugh, your softness, your strength, your beautiful, stubborn, tender heart. And I get the privilege of calling you mine.</p>
+
+  <p class="body-text">I want to tell you something I need you to truly hear today: You are not lucky to be loved. You deserve it. Every single bit of it.</p>
+
+  <p class="body-text">I have watched you carry so much this past year — exams, distance, hard days, uncertain nights. And you never stopped showing up. Not for me, not for the people you love, and not for yourself. That is extraordinary.</p>
+
+  <div class="pq">
+    <div class="pq-text">"Your 20s are going to be the decade where everything clicks."</div>
+  </div>
+
+  <p class="body-text">Your 20s are going to be the decade where everything clicks. Where your dreams stop being "someday" and start becoming real. Where the things you have worked for quietly, consistently, in the background — finally arrive.</p>
+
+  <p class="body-text">And I want to be there for every chapter of it. Not just the beautiful moments in Goa. Not just the late-night conversations. All of it. The ordinary Tuesdays. The hard months. The moments where you doubt yourself.</p>
+
+  <p class="body-text">I am not going anywhere.</p>
+
+  <p class="byline">— Your Pune Boy, March 2026</p>
+
+  <div class="page-num">02</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 3: PULL QUOTE SPREAD
+══════════════════════════════════════ -->
+<div class="page" style="display:flex;align-items:center;justify-content:center;">
+  <div style="text-align:center;max-width:500px;">
+    <div class="pq-text" style="font-size:clamp(28px,7vw,48px);margin-bottom:20px;">
+      "On your 20th birthday, I have one wish for you: That you love yourself today the way I love you."
+    </div>
+    <div class="pq-attr">Completely · Without Condition · Without Doubt</div>
+  </div>
+  <div class="page-num">03</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 4: THE VAULT
+══════════════════════════════════════ -->
+<div class="page">
+  <span class="kicker">Chapter Two</span>
+  <h1 class="hed">The Vault</h1>
+  <p class="dek">A secret is locked inside. Only you know the answer.</p>
+
+  <div id="vaultLocked">
+    <div class="vault-box">
+      <div class="v-lock" id="lockIcon">🔒</div>
+      <div class="v-title">Unlock Your Present</div>
+      <div class="v-hint">💡 Hint: The DDMM of the day "us" officially began</div>
+      
+      <div class="pin-dots" id="pinDots">
+        <div class="pd"></div>
+        <div class="pd"></div>
+        <div class="pd"></div>
+        <div class="pd"></div>
+      </div>
+
+      <div class="keypad">
+        <div class="key" onclick="kp(1)">1</div>
+        <div class="key" onclick="kp(2)">2</div>
+        <div class="key" onclick="kp(3)">3</div>
+        <div class="key" onclick="kp(4)">4</div>
+        <div class="key" onclick="kp(5)">5</div>
+        <div class="key" onclick="kp(6)">6</div>
+        <div class="key" onclick="kp(7)">7</div>
+        <div class="key" onclick="kp(8)">8</div>
+        <div class="key" onclick="kp(9)">9</div>
+        <div class="key empty"></div>
+        <div class="key" onclick="kp(0)">0</div>
+        <div class="key del" onclick="kpDel()">⌫</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="vaultUnlocked" class="vault-reveal">
+    <div class="photo" style="aspect-ratio:16/9;background:linear-gradient(135deg,rgba(196,160,248,0.15),rgba(232,160,146,0.15));">
+      🎁
+    </div>
+    <p class="caption">Vault unlocked · Your birthday promise</p>
+
+    <p class="body-text drop-cap" style="margin-top:24px;">December 22. The night everything changed. I said yes — not because it was easy, but because something inside me already knew.</p>
+
+    <p class="body-text">My birthday promise to you is simple: I will choose you. Every day. Not just when it is convenient — but on the hard days, the quiet days, the days when distance feels like too much.</p>
+
+    <p class="body-text">I will listen when you need to talk. I will give you space when you need quiet. I will celebrate every win you have. And I will remind you, on every day you forget, exactly how remarkable you are.</p>
+
+    <div class="pq">
+      <div class="pq-text">"You are my person. That does not change."</div>
+    </div>
+  </div>
+
+  <div class="page-num">04</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 5: 20 THINGS
+══════════════════════════════════════ -->
+<div class="page">
+  <span class="kicker">Chapter Three</span>
+  <h1 class="list-hed">20 Things I Love<br>About You</h1>
+  <p class="dek">One reason for every year you have been alive.</p>
+
+  <ul class="num-list">
+    <li><span>The way you genuinely care about people — without keeping score.</span></li>
+    <li><span>Your beautiful, quiet strength. You carry so much with grace.</span></li>
+    <li><span>How deeply real and honest you are, even when it costs you.</span></li>
+    <li><span>The way you handle hard days and still choose kindness.</span></li>
+    <li><span>Your laugh. It is my favorite sound in the entire world.</span></li>
+    <li><span>How you make 600 kilometers feel like nothing.</span></li>
+    <li><span>The way you looked at me in Goa. I will never forget it.</span></li>
+    <li><span>Your ambition and the quiet, consistent way you work.</span></li>
+    <li><span>How soft your heart is, even after everything.</span></li>
+    <li><span>The way you say my name. It sounds different from anyone else.</span></li>
+    <li><span>Your stubbornness. It drives me crazy in the best way.</span></li>
+    <li><span>How safe you make me feel — just by being yourself.</span></li>
+    <li><span>Your beautiful face. I could look at you forever.</span></li>
+    <li><span>The three days we spent together. They changed everything.</span></li>
+    <li><span>Your intelligence. The way your mind works fascinates me.</span></li>
+    <li><span>How you overthink because you care. I love that about you.</span></li>
+    <li><span>The way you light up a room without even trying.</span></li>
+    <li><span>Your weird, cute little habits that only I get to see.</span></li>
+    <li><span>How you are unapologetically yourself. Never change that.</span></li>
+    <li><span>That out of everyone in this world, you chose me. I will never take that for granted.</span></li>
+  </ul>
+
+  <div class="page-num">05</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 6: OUR STORY
+══════════════════════════════════════ -->
+<div class="page">
+  <span class="kicker">Chapter Four</span>
+  <h1 class="hed">Our Story,<br>So Far</h1>
+  <p class="dek">The chapters that changed everything. Tap any moment to open it.</p>
+
+  <div style="background:rgba(196,160,248,0.06);padding:20px;border-radius:4px;text-align:center;margin:24px 0;">
+    <div style="font-family:Montserrat;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Together Since</div>
+    <div style="font-size:40px;font-weight:600;color:var(--accent);" id="dayCount">...</div>
+    <div style="font-family:Montserrat;font-size:11px;color:var(--muted);margin-top:2px;">beautiful days</div>
+  </div>
+
+  <div id="timeline">
+    <div class="tl-item" onclick="togTl(this)">
+      <div class="tl-left">
+        <div class="tl-dot"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div>
+        <div class="tl-date">22 Dec 2025</div>
+        <div class="tl-title">The night "us" began.</div>
+        <div class="tl-body">One conversation. One yes. Something inside me went completely quiet — in the best way. I already knew you were different.</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="togTl(this)">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--accent2);box-shadow:0 0 0 3px rgba(232,160,146,0.15);"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div>
+        <div class="tl-date">Jan 2026 · Exam Season</div>
+        <div class="tl-title">You showed up tired and still chose me.</div>
+        <div class="tl-body">Carrying exams, stress, everything — and you were still there. That version of you, exhausted but present, is one I love most.</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="togTl(this)">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:#e8c87a;box-shadow:0 0 0 3px rgba(232,200,122,0.15);"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div>
+        <div class="tl-date">13–15 Feb 2026 · Goa</div>
+        <div class="tl-title">Three days. One lifetime of certain.</div>
+        <div class="tl-body">You in front of me — nervous, soft, completely yourself. The sea, your laugh, those three days removed every last doubt.</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="togTl(this)">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:#f9a0d8;box-shadow:0 0 0 3px rgba(249,160,216,0.15);"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div>
+        <div class="tl-date">8 Mar 2026 · Women's Day</div>
+        <div class="tl-title">I celebrated you specifically.</div>
+        <div class="tl-body">The world celebrated all women. I spent the day thinking about one — you. Because you are not just any woman. You are mine.</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="togTl(this)">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:linear-gradient(135deg,var(--accent),var(--accent2));width:13px;height:13px;"></div>
+      </div>
+      <div>
+        <div class="tl-date">9 Mar 2026 · Today 🎂</div>
+        <div class="tl-title">The day you were born. The day everything got better.</div>
+        <div class="tl-body">Twenty years ago the world got permanently brighter. Today I get to celebrate you. Happy Birthday, my love.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-num">06</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 7: FINAL MESSAGE
+══════════════════════════════════════ -->
+<div class="page" style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+  <div>
+    <div class="final-box">
+      <div class="final-big">Happy Birthday,<br>My Love.</div>
+      <p style="font-size:16px;line-height:1.8;color:var(--muted);max-width:380px;margin:0 auto;">
+        Today you are 20 — celebrated, adored, completely seen.<br><br>
+        Tomorrow you are still mine — chosen, wanted, loved without doubt.<br><br>
+        Every day: you are the best thing that has ever happened to me.
+      </p>
+      <div class="final-sign">Thank you for being born. ♡</div>
+    </div>
+    <div style="text-align:center;font-family:Montserrat;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:24px;">
+      End of Issue XX
+    </div>
+  </div>
+  <div class="page-num">07</div>
+</div>
+
+</div><!-- /mag -->
+
+<script>
+// ══ VAULT ══
+let pin = '';
+const correct = '2212';
+const dots = document.querySelectorAll('.pd');
+
+function kp(n) {
+  if(pin.length >= 4) return;
+  pin += n;
+  updPin();
+  if(navigator.vibrate) navigator.vibrate(30);
+  if(pin.length === 4) setTimeout(checkVault, 300);
+}
+
+function kpDel() {
+  pin = pin.slice(0,-1);
+  updPin();
+}
+
+function updPin() {
+  dots.forEach((d, i) => {
+    d.className = 'pd';
+    if(i < pin.length) d.classList.add('on');
+  });
+}
+
+function checkVault() {
+  if(pin === correct) {
+    document.getElementById('lockIcon').textContent = '🔓';
+    document.getElementById('vaultLocked').style.display = 'none';
+    document.getElementById('vaultUnlocked').style.display = 'block';
+    if(navigator.vibrate) navigator.vibrate([80,40,120]);
+  } else {
+    dots.forEach(d => { d.className='pd err'; });
+    setTimeout(() => { pin=''; updPin(); }, 400);
+    if(navigator.vibrate) navigator.vibrate(200);
+  }
+}
+
+// ══ TIMELINE ══
+function togTl(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.tl-item').forEach(t => t.classList.remove('open'));
+  if(!isOpen) el.classList.add('open');
+}
+
+// ══ DAY COUNT ══
+function calcDays() {
+  const start = new Date('2025-12-22');
+  const today = new Date('2026-03-09');
+  const diff = Math.floor((today - start) / 86400000);
+  document.getElementById('dayCount').textContent = diff;
+}
+calcDays();
+</script>
+</body>
+</html>
